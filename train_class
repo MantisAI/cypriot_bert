@@ -1,5 +1,5 @@
 from transformers import BertTokenizer, BertForMaskedLM, TrainingArguments, Trainer
-
+import typer
 
 
 def train(data_path, model_path, epochs){
