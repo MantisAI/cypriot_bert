@@ -1,12 +1,26 @@
-class CypriotDataset(torch.utils.data.Dataset):
-    def __init__(self, encodings):
-        # store encodings internally
-        self.encodings = encodings
+from transformers import BertTokenizer, BertForMaskedLM, TrainingArguments, Trainer
+from datasets import load_dataset
+from datasets import load_dataset
 
-    def __len__(self):
-        # return the number of samples
-        return self.encodings['input_ids'].shape[0]
 
-    def __getitem__(self, i):
-        # return dictionary of input_ids, attention_mask, and labels for index i
-        return {key: tensor[i] for key, tensor in self.encodings.items()}
+
+dataset = load_dataset()
+
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForMaskedLM.from_pretrained('bert-base-uncased')
+
+training_args = TrainingArguments(
+    output_dir='out',
+    per_device_train_batch_size=16,
+    num_train_epochs=2
+)
+
+trainer = Trainer(
+    model=model,
+    args=args,
+    train_dataset=dataset
+)
+
+trainer.train()
+
+trainer.save("URL")
