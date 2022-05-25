@@ -3,7 +3,7 @@ from transformers import BertTokenizer, BertForMaskedLM, TrainingArguments, Trai
 
 
 def train(data_path, model_path, epochs){
-    data_path = data_path.rpartition('/')[2]
+    dataset = data_path.rpartition('/')[2]
     model_path = model_path.rpartition('/')[2]
 
 
