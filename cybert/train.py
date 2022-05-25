@@ -1,29 +1,33 @@
+from pyexpat import model
 from transformers import BertTokenizer, BertForMaskedLM, TrainingArguments, Trainer
 import typer
 
 app = typer.Typer()
 
 
-def train(data_path, model_path, epochs){
-    dataset = data_path.rpartition('/')[2]
+def train(data_path, model_path, epochs):
+    
+    tokenizer = BertTokenizer.from_pretrained(model_path)
+    model = BertForMaskedLM.from_pretrained(model_path)
 
+    model.to('cuda')
 
     training_args = TrainingArguments(
-        output_dir='out',
-        batch_size =16,
-        epochs=2
+        output_dir=f"./out_fold",
+        overwrite_output_dir = 'True',
+        batch_size = 16,
+        num_train_epochs=epochs
     )
 
     trainer = Trainer(
-        model=model_path,
-        args=args,
-        train_dataset=dataset
+        model=model,
+        args=training_args,
+        train_dataset=data_path
     )
 
-    trainer.train()
+    trainer.train(steps=1)
 
-    trainer.save(model_path)
-}
+    trainer.save_model("Trained Model")
 
 @app.command()
 def main(data_path: str, model_path: str, epochs: bool = False):
