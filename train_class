@@ -3,7 +3,7 @@ from datasets import load_dataset
 
 
 
-dataset = load_dataset()
+dataset = load_dataset('glue', 'mrpc', split='train')
 
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 model = BertForMaskedLM.from_pretrained('bert-base-uncased')
@@ -11,8 +11,8 @@ model = BertForMaskedLM.from_pretrained('bert-base-uncased')
 
 training_args = TrainingArguments(
     output_dir='out',
-    per_device_train_batch_size=16,
-    num_train_epochs=2
+    batch_size =16,
+    epochs=2
 )
 
 trainer = Trainer(
@@ -23,4 +23,4 @@ trainer = Trainer(
 
 trainer.train()
 
-trainer.save("URL")
+trainer.save(model_path)
