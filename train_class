@@ -4,7 +4,6 @@ from transformers import BertTokenizer, BertForMaskedLM, TrainingArguments, Trai
 
 def train(data_path, model_path, epochs){
     dataset = data_path.rpartition('/')[2]
-    model_path = model_path.rpartition('/')[2]
 
 
     training_args = TrainingArguments(
@@ -14,7 +13,7 @@ def train(data_path, model_path, epochs){
     )
 
     trainer = Trainer(
-        model=model_path ,
+        model=model_path,
         args=args,
         train_dataset=dataset
     )
