@@ -1,0 +1,8 @@
+transformers
+torch
+typer
+datasets
+# Lint, Format
+pre-commit
+# Tets
+pytest
