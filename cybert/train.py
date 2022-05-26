@@ -38,6 +38,7 @@ def train(
         per_device_train_batch_size=batch_size,
         num_train_epochs=epochs,
         max_steps=max_steps,
+        optim="adamw_torch",
     )
 
     trainer = Trainer(

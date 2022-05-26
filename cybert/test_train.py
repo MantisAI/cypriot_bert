@@ -1,7 +1,7 @@
 from typer.testing import CliRunner
 import pytest
 
-from .train import app
+from train import app
 
 runner = CliRunner()
 
