@@ -1,5 +1,11 @@
 # Venv
 .env
 
+# Models
+models/
+
 # VSCode
 .vscode
+
+# Python cache
+**/__pycache__

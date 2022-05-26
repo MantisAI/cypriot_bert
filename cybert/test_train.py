@@ -1,12 +1,18 @@
 from typer.testing import CliRunner
+import pytest
 
 from .train import app
 
 runner = CliRunner()
 
 
-def test_app():
-    result = runner.invoke(app, ["imdb", "bert-base-uncased", "--5"])
+@pytest.fixture
+def model_path(tmp_path):
+    return tmp_path
+
+
+def test_app(model_path):
+    result = runner.invoke(
+        app, ["imdb", str(model_path), "distilbert-base-uncased", "--max-steps", "1"]
+    )
     assert result.exit_code == 0
-    assert "Loading ..." in result.stdout
-    assert "It's a better convention to use --epoch. Next time!" in result.stdout
