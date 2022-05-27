@@ -20,7 +20,6 @@ def url_extract(url):
     if not url.startswith("http://"):
         url = "http://" + url
 
-    # for future use
     replacements = [
         '<span class="bold">(.+?)</span>',
         '<span class="color_4">(.+?)</span>',
@@ -36,7 +35,7 @@ def url_extract(url):
         tags_content = str(tags_content)
 
         for x in replacements:
-            # find not desired tags in the tags and loop
+            # find not desired tags in the text string and loop
             for m in re.finditer(x, tags_content):
                 # get only the content of the regex match object
                 content = str(m.group(0))
