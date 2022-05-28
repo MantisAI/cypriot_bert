@@ -6,3 +6,4 @@ datasets
 pre-commit
 # Tets
 pytest
+bs4
