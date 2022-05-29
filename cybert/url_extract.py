@@ -2,8 +2,35 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import typer
+import urllib3
+
+# unverified HTTPS request is being made to host
+# adding certificate verification is strongly advised
+# since https works with http => it is okay for now
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 app = typer.Typer()
+
+
+def https_func(url):
+    if not url.startswith("https://"):
+        url = "https://" + url
+
+        # enable SSL_VERIFICATION
+        htmltext = requests.get(url, verify=True).text
+
+    return htmltext
+
+
+def http_func(url):
+    if not url.startswith("http://"):
+        url = "http://" + url
+
+        # enable SSL_VERIFICATION
+        htmltext = requests.get(url, verify=False).text
+
+    return htmltext
 
 
 def parse_text_to_html_find_tag(text, tag="span"):
@@ -16,9 +43,14 @@ def parse_text_to_html_find_tag(text, tag="span"):
 
 @app.command()
 def url_extract(url):
-
-    if not url.startswith("http://"):
-        url = "http://" + url
+    # if the user has not specified if the given url starts with https or http => try with https first
+    # if https fails => http
+    try:
+        htmltext = https_func(url)
+    except requests.exceptions.ConnectionError:
+        pass
+    finally:
+        htmltext = http_func(url)
 
     replacements = [
         '<span class="bold">(.+?)</span>',
@@ -27,15 +59,13 @@ def url_extract(url):
     ]
 
     try:
-        htmltext = requests.get(url).text
-
         tags_content = parse_text_to_html_find_tag(htmltext)
 
         # convert it to string and exclude all the content of the classes of the given tag that we don't want
         tags_content = str(tags_content)
 
         for x in replacements:
-            # find not desired tags in the text string and loop
+            # loop  through the not desired tags in the text string
             for m in re.finditer(x, tags_content):
                 # get only the content of the regex match object
                 content = str(m.group(0))
