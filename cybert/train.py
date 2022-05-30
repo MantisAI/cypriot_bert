@@ -19,16 +19,20 @@ def train(
     epochs: int = 5,
     batch_size: int = 16,
     max_steps: int = -1,
+    sample_size: int = None,
 ):
     tokenizer = AutoTokenizer.from_pretrained(pretrained_model)
     model = AutoModelForMaskedLM.from_pretrained(pretrained_model)
 
     dataset = load_dataset(data_path)
+    if sample_size:
+        dataset = dataset["train"].select(range(sample_size))
+
     dataset = dataset.map(
         lambda x: tokenizer(x["text"], truncation=True, padding="max_length"),
         batched=True,
         num_proc=4,
-        remove_columns=dataset["train"].column_names,
+        remove_columns=dataset.column_names,
     )
 
     data_collator = DataCollatorForLanguageModeling(tokenizer, mlm_probability=0.15)
@@ -44,7 +48,7 @@ def train(
     trainer = Trainer(
         model=model,
         args=training_args,
-        train_dataset=dataset["train"],
+        train_dataset=dataset,
         data_collator=data_collator,
     )
 

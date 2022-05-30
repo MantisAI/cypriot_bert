@@ -13,6 +13,15 @@ def model_path(tmp_path):
 
 def test_app(model_path):
     result = runner.invoke(
-        app, ["imdb", str(model_path), "distilbert-base-uncased", "--max-steps", "1"]
+        app,
+        [
+            "imdb",
+            str(model_path),
+            "distilbert-base-uncased",
+            "--max-steps",
+            "1",
+            "--sample-size",
+            "16",
+        ],
     )
     assert result.exit_code == 0
