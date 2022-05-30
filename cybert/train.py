@@ -29,7 +29,9 @@ def train(
         dataset = dataset["train"].select(range(sample_size))
 
     dataset = dataset.map(
-        lambda x: tokenizer(x["text"], truncation=True, padding="max_length"),
+        lambda x: tokenizer(
+            x["text"], truncation=True, padding="max_length", max_length=512
+        ),
         batched=True,
         num_proc=4,
         remove_columns=dataset.column_names,

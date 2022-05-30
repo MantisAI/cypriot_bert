@@ -17,7 +17,7 @@ def test_app(model_path):
         [
             "imdb",
             str(model_path),
-            "distilbert-base-uncased",
+            "prajjwal1/bert-tiny",
             "--max-steps",
             "1",
             "--sample-size",
