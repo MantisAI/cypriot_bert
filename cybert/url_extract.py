@@ -2,35 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import typer
-import urllib3
-
-# unverified HTTPS request is being made to host
-# adding certificate verification is strongly advised
-# since https works with http => it is okay for now
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 
 app = typer.Typer()
-
-
-def https_func(url):
-    if not url.startswith("https://"):
-        url = "https://" + url
-
-        # enable SSL_VERIFICATION
-        htmltext = requests.get(url, verify=True).text
-
-    return htmltext
-
-
-def http_func(url):
-    if not url.startswith("http://"):
-        url = "http://" + url
-
-        # enable SSL_VERIFICATION
-        htmltext = requests.get(url, verify=False).text
-
-    return htmltext
 
 
 def parse_text_to_html_find_tag(text, tag="span"):
@@ -43,14 +16,12 @@ def parse_text_to_html_find_tag(text, tag="span"):
 
 @app.command()
 def url_extract(url):
-    # if the user has not specified if the given url starts with https or http => try with https first
-    # if https fails => http
-    try:
-        htmltext = https_func(url)
-    except requests.exceptions.ConnectionError:
-        pass
-    finally:
-        htmltext = http_func(url)
+    # either it's http or https, since no client certificates are used => it will use http
+    if url.startswith("https://"):
+        url = url.replace("https://", "http://")
+
+    if not url.startswith("http://"):
+        url = "http://" + url
 
     replacements = [
         '<span class="bold">(.+?)</span>',
@@ -59,6 +30,8 @@ def url_extract(url):
     ]
 
     try:
+        htmltext = requests.get(url).text
+
         tags_content = parse_text_to_html_find_tag(htmltext)
 
         # convert it to string and exclude all the content of the classes of the given tag that we don't want
@@ -72,8 +45,11 @@ def url_extract(url):
 
                 # cannot remove the tags from the html because when parsing will lead to errors
                 # get the content within the tags
-                content = content.replace('<span class="bold">', "")
-                content = content.replace('<span class="color_4">', "")
+                lst = [i.split("(.+?)")[0] for i in replacements]
+
+                for i in lst:
+                    content = content.replace(i, "")
+
                 content = content.replace("</span>", "")
 
                 tags_content = tags_content.replace(content, "")
