@@ -19,6 +19,7 @@ huggingface-hub==0.7.0
 identify==2.5.1
 idna==3.3
 iniconfig==1.1.1
+lxml==4.8.0
 multidict==6.0.2
 multiprocess==0.70.12.2
 nodeenv==1.6.0
