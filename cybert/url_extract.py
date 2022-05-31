@@ -1,13 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
-from requests.exceptions import MissingSchema
 import typer
+import os
 
 app = typer.Typer()
 
 
 @app.command()
-def url_extract(url):
+def url_extract(url, file_path):
     if not url.startswith("https://") and not url.startswith("http://"):
         url = "http://" + url
 
@@ -30,7 +30,11 @@ def url_extract(url):
         )
     )
 
-    print(text)
+    try:
+        with open(file_path, "w") as f:
+            f.write(text)
+    except IsADirectoryError:
+        print(f"Error: {file_path} is a directory")
 
 
 if __name__ == "__main__":
