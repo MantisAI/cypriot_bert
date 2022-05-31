@@ -1,2 +1,14 @@
 # Venv
 .env
+
+# Models
+models/
+
+# VSCode
+.vscode
+
+# PyCharm
+.idea
+
+# Python cache
+**/__pycache__

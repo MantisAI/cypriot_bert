@@ -2,7 +2,9 @@ transformers
 torch
 typer
 datasets
+lxml
 # Lint, Format
 pre-commit
 # Tets
 pytest
+bs4

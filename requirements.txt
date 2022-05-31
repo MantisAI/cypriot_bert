@@ -3,6 +3,8 @@ aiohttp==3.8.1
 aiosignal==1.2.0
 async-timeout==4.0.2
 attrs==21.4.0
+beautifulsoup4==4.11.1
+bs4==0.0.1
 certifi==2022.5.18.1
 cfgv==3.3.1
 charset-normalizer==2.0.12
@@ -17,6 +19,7 @@ huggingface-hub==0.7.0
 identify==2.5.1
 idna==3.3
 iniconfig==1.1.1
+lxml==4.8.0
 multidict==6.0.2
 multiprocess==0.70.12.2
 nodeenv==1.6.0
@@ -37,6 +40,7 @@ regex==2022.4.24
 requests==2.27.1
 responses==0.18.0
 six==1.16.0
+soupsieve==2.3.2.post1
 tokenizers==0.12.1
 toml==0.10.2
 tomli==2.0.1
