@@ -7,7 +7,7 @@ app = typer.Typer()
 
 
 @app.command()
-def url_extract(url, file_path):
+def url_extract(url, output_path):
     if not url.startswith("https://") and not url.startswith("http://"):
         url = "http://" + url
 
@@ -31,10 +31,10 @@ def url_extract(url, file_path):
     )
 
     try:
-        with open(file_path, "w") as f:
+        with open(output_path, "w") as f:
             f.write(text)
     except IsADirectoryError:
-        print(f"Error: {file_path} is a directory")
+        print(f"Error: {output_path} is a directory")
 
 
 if __name__ == "__main__":

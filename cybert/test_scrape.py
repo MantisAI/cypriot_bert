@@ -1,7 +1,7 @@
 from typer.testing import CliRunner
 import pytest
 
-from url_extract import app
+from scrape import app
 
 runner = CliRunner()
 
