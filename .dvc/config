@@ -1,6 +1,7 @@
 [core]
     remote = s3
     hardlink_lock = true
+    autostage = true
 ['remote "s3"']
     url = s3://mantisnlp-cybert
     region = eu-west-1
