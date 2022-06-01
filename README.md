@@ -33,3 +33,16 @@ Adding data to track using `dvc`:
 
 Getting data using `dvc`:
 * `dvc pull data/raw` to download all the files tracked in `data/raw`
+
+# Accessing HPC system using `ssh` 
+```
+ssh <username>@<hostname>
+```
+  
+The directory `data_p105` is where all the data needs to be stored (the project id on the system is `p105` and the environment variable `$DATA_p105` points to the project's data directory)
+  
+# Submitting jobs on HPC system using `SLURM`
+1. Using a job script where `#SBATCH -A p105` need to be added to our job script
+2. Using an interactive job where `-A p105` will need to be added to our salloc command (e.g. `salloc -A p105 -N1 --ntasks-per-node=40` for a job to use a whole node, all its 40 cores)
+
+
