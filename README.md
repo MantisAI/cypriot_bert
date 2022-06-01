@@ -42,7 +42,45 @@ ssh <username>@<hostname>
 The directory `data_p105` is where all the data needs to be stored (the project id on the system is `p105` and the environment variable `$DATA_p105` points to the project's data directory)
   
 # Submitting jobs on HPC system using `SLURM`
-1. Using a job script where `#SBATCH -A p105` need to be added to our job script
-2. Using an interactive job where `-A p105` will need to be added to our salloc command (e.g. `salloc -A p105 -N1 --ntasks-per-node=40` for a job to use a whole node, all its 40 cores)
+When running under the `CPU` partition:
+  
+You need to specify the number of tasks per node (number of cores per node). If not specified, the default value is 1
+  
+In your job script or salloc command you need the option `--ntasks-per-node=<number_of_cores_per_node>`
+
+<br>
+
+The table below shows a few examples:  
+
+| Job resources                        | Interactive job                    | Job script                                                    |
+| -------------                        |:-------------:                     | -----:                                                        |
+| Job using two cores on one node      |  salloc -N1 --ntasks-per-node=2    | #SBATCH<br> --nodes=1<br> #SBATCH<br> --ntasks-per-node-2     |
+| Job using a whole node               | salloc -N1 --ntasks-per-node=40    | #SBATCH<br> --nodes=1<br> #SBATCH<br> --ntasks-per-node=40    |
+| Job using four nodes                 |    salloc -N4 --ntasks-per-node=40 | #SBATCH<br> --nodes=4<br> #SBATCH<br> --ntasks-per-node=40    |
+  
+<br>
+<br>
+       
+When running under the `GPU` partition:
+  
+The default number of cores assigned to each GPU is the total number of cores per node divided by the total number of GPUs per node i.e. for Cyclone 10 cores are assigned to each GPU so a Cyclone job requesting 2 GPUs will also be allocated 20 cores 
+  
+In your job script or salloc command you need one of the below options:
+
+`--gres=gpu:<number_of_gpus_per_node>`
+
+`--gpus-per-node=<number_of_gpus_per_node>`
+
+`--gpus=<number_of_gpus_per_job>`
+  
+<br>  
+  
+The table below shows a few examples:  
+
+| Job resources                        | Interactive job                                                | Job script                                                    |
+| -------------                        |:-------------:                                                 | -----:                                                        |
+| Job using two GPUs on one node       |  salloc -N1 --gres=gpu:2                                       | #SBATCH<br> --nodes=1<br> #SBATCH<br>  --gres=gpu:2     |
+| Job using all GPUs of a whole node   | salloc -N1 --gpus-per-node=4                                   | #SBATCH<br> --nodes=1<br> #SBATCH<br> --gpus-per-node=4  |
+| Job using all GPUs on two nodes      |    salloc -N4 --gpus=8<br> or<br>  salloc -N2 --gpus-per-node=4| #SBATCH<br> --nodes=2<br> #SBATCH<br> --gpus=8<br> or<br> #SBATCH<br> --nodes=2<br> #SBATCH<br>  --gpus-per-node=4 |
 
 
