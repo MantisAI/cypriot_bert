@@ -83,4 +83,20 @@ The table below shows a few examples:
 | Job using all GPUs of a whole node   | salloc -N1 --gpus-per-node=4                                   | #SBATCH<br> --nodes=1<br> #SBATCH<br> --gpus-per-node=4  |
 | Job using all GPUs on two nodes      |    salloc -N4 --gpus=8<br> or<br>  salloc -N2 --gpus-per-node=4| #SBATCH<br> --nodes=2<br> #SBATCH<br> --gpus=8<br> or<br> #SBATCH<br> --nodes=2<br> #SBATCH<br>  --gpus-per-node=4 |
 
+# Default memory amounts per core and per GPU
+A user can ask for less or more memory per core or per GPU but if not explicitly asked, the default amounts will be given to each job
 
+<br>  
+
+The table below shows the default memory amounts per cluster:
+
+| Cluster                              | Default memory per core (MB)       | Default memory per GPU (MB)   |
+| -------------                        |:-------------:                     | -----:                        |
+| Cyclone                              |  4800                              | 48000                         |
+
+<br> 
+
+The above defaults can change using the  `--mem-per-cpu=<size[units]>` or  `--mem-per-gpu=<size[units]>` options respectively in your salloc command or in your job script
+
+For example, a CPU job on a Cyclone node needing 10 cores and 2000 MB of memory per core, can be allocated as below:  
+`salloc -N1 --ntasks-per-node=10 --mem-per-cpu=2000`
