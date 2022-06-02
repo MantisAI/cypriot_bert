@@ -100,3 +100,42 @@ The above defaults can change using the  `--mem-per-cpu=<size[units]>` or  `--me
 
 For example, a CPU job on a Cyclone node needing 10 cores and 2000 MB of memory per core, can be allocated as below:  
 `salloc -N1 --ntasks-per-node=10 --mem-per-cpu=2000`
+
+# Best practises
+When running under the `CPU` partition:
+<br>
+It is suggested to run an interactive job for requesting the provided nodes
+
+```
+salloc --job-name=test_job -N1 --gres=gpu:1 -A p105
+```
+
+<br>
+
+and when you get connected to the CPU node, then manually run the script
+
+```
+python3 pythonscript.py
+```
+
+When running under the `GPU` partition: 
+<br>
+It is suggested to run an sbatch (job) script
+
+```
+#!/bin/bash
+#SBATCH --job-name=test_job
+#SBATCH --output=job.txt
+#SBATCH --nodes=1
+##SBATCH --gres=gpu:1
+#SBATCH --account=p105
+
+module load TensorFlow/2.4.1-fosscuda-2020b
+module load CUDA/11.1.1-GCC-10.2.0
+module load Python/3.8.6-GCCcore-10.2.0
+python3 pythonscript.py
+```
+
+<br>
+
+The reason is because the GPU nodes of the system are always busy
