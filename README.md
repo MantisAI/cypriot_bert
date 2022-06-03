@@ -104,10 +104,10 @@ For example, a CPU job on a Cyclone node needing 10 cores and 2000 MB of memory 
 # Best practises
 When running under the `CPU` partition:
 <br>
-It is suggested to run an interactive job for requesting the provided nodes
+It is suggested to run an interactive job
 
 ```
-salloc --job-name=test_job -N1 --gres=gpu:1 -A p105
+salloc --job-name=test_job -N1 --ntasks-per-node=2 -A p105
 ```
 
 <br>
