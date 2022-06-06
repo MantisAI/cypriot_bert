@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#SBATCH --job-name=test-train
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
+#SBATCH --account=p105
+#SBATCH --output=train.log
+
+module load Python/3.8.6-GCCcore-10.2.0
+source .env/bin/activate
+python cybert/train.py imdb models/ distilbert-base-uncased --max-steps 12
