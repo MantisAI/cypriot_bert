@@ -1,14 +1,14 @@
-# Venv
+# Venv, direnv
 .env
+.envrc
 
 # Models
 models/
 
-# VSCode
+# IDEs
 .vscode
-
-# PyCharm
 .idea
 
-# Python cache
+# Python
 **/__pycache__
+*.pymon
