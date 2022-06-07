@@ -15,6 +15,29 @@ make update-requirements-txt
 ```
 this ensure that all requirements are pinned and work together for ensuring reproducibility
 
+# Cyclone
+
+Cyclone is the name of the super computer at the Cyprus Institute. In order to run a job you need to request access by following
+this [link](https://hpcfsupport.atlassian.net/servicedesk/customer/portal/3/create/29). Through the process of getting access,
+you need to pass over your public key so that you can ssh into the super computer.
+
+Each user is being given a separate user directory. In the home directory there is a project folder with the name `data_PROJECTID`
+which only you have access and has generous quota for saving data and models Your work should be placed there. Thus clone this
+repo inside the project folder and create the virtualenv by running
+```
+module load Python/3.8.6-GCCcore-10.2.0
+make virtualenv
+```
+
+To queue a job for training run
+```
+sbatch job.sub
+```
+
+You can see the output of the logs in `train.log`
+
+More information on how to run jobs here https://hpcf.cyi.ac.cy/documentation/running_jobs.html
+
 # Tests
 
 You can run tests by running
