@@ -15,27 +15,19 @@ def url_extract(url, output_path):
 
     html = requests.get(r.url).text
 
-
+    
     soup = BeautifulSoup(html, "lxml")
 
 
-    text = " ".join(
-    list(
-        set(
-            [
-                div.text
-                for div in soup.find_all(
-                    "div", attrs={"class": ["post-body"]}
-                )
-            ]
-        )
-    )
-    )
+    content = soup.find("div", attrs={"class": ["postentry"]})
 
+
+    unwanted = content.find("div", attrs={"class": ["sharedaddy"]})
+    unwanted.extract()
 
     try:
         with open(output_path, "w") as f:
-            f.write(text)
+            f.write(content.text.strip())
     except IsADirectoryError:
         print(f"Error: {output_path} is a directory")
 

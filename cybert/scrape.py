@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 import typer
-import os
 
 app = typer.Typer()
 
@@ -10,7 +9,7 @@ app = typer.Typer()
 def url_extract(url, output_path):
     if not url.startswith("https://") and not url.startswith("http://"):
         url = "http://" + url
-
+ 
     r = requests.get(url)
 
     html = requests.get(r.url).text
