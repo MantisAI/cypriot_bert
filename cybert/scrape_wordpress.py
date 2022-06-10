@@ -36,7 +36,7 @@ def url_extract(url, output_path):
             unwanted = content.find("div", attrs={"class": ["sharedaddy"]})
             unwanted.extract()
             break
-        except:
+        except AttributeError:
             continue
 
 
