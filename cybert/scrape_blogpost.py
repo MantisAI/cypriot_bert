@@ -28,7 +28,7 @@ def url_extract(url, output_path, append_to_file=False):
 
     try:
         with open(output_path, arg) as f:
-            f.write(text)
+            f.write(text.strip())
     except IsADirectoryError:
         print(f"Error: {output_path} is a directory")
 
