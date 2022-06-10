@@ -1,7 +1,7 @@
 from typer.testing import CliRunner
 import pytest
 
-from scrape_wordpress1 import app
+from scrape_wordpress import app
 
 runner = CliRunner()
 

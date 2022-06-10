@@ -5,6 +5,16 @@ import typer
 app = typer.Typer()
 
 
+def pattixa_wordpress(soup):
+        content = soup.find("div", attrs={"class": ["entry-content"]})
+
+        return content
+
+def xenihtikon_wordpress(soup):
+        content = soup.find("div", attrs={"class": ["entry"]})
+
+        return content
+
 @app.command()
 def url_extract(url, output_path):
 
@@ -18,11 +28,17 @@ def url_extract(url, output_path):
     
     soup = BeautifulSoup(html, "lxml")
 
-    content = soup.find("div", attrs={"class": ["entry-content"]})
 
+    for fn in (pattixa_wordpress, xenihtikon_wordpress):
+        try:
+            content = fn(soup)
+            
+            unwanted = content.find("div", attrs={"class": ["sharedaddy"]})
+            unwanted.extract()
+            break
+        except:
+            continue
 
-    unwanted = content.find("div", attrs={"class": ["sharedaddy"]})
-    unwanted.extract()
 
     try:
         with open(output_path, "w") as f:
