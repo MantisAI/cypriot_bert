@@ -1,6 +1,6 @@
 import scrape_blogpost
 import scrape_wordpress
-import scrape_paroimies
+import scrape_proverbs
 
 import pandas as pd
 import typer
@@ -22,12 +22,12 @@ def extract_google_sheet():
 
             if check_script_column == "scrape_blogpost":
                 scrape_blogpost.url_extract(url, "blogpost_content.txt", True)
-        #     elif check_script_column == "scrape_wordpress":
-        #         scrape_wordpress.url_extract(url, "wordpress_content.txt", True)
+            elif check_script_column == "scrape_wordpress":
+                scrape_wordpress.url_extract(url, "wordpress_content.txt", True)
 
-        # if df["Author"][i] == "paroimies.gr":
-        #     for j in range(i + 1, i + 156):
-        #         scrape_paroimies.url_extract(df["Link"][j], "proverbs.txt")
+        if df["Author"][i] == "paroimies.gr":
+            for j in range(i + 1, i + 1 + 156):
+                scrape_proverbs.url_extract(df["Link"][j], "proverbs.txt")
 
 
 if __name__ == "__main__":
