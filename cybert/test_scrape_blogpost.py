@@ -1,7 +1,7 @@
 from typer.testing import CliRunner
 import pytest
 
-from scrape2 import app
+from scrape_blogpost import app
 
 runner = CliRunner()
 
@@ -15,7 +15,7 @@ def test_app():
     result = runner.invoke(
         app,
         [
-            "https://patinios.wordpress.com/2022/04/19/%ce%b1%ce%bd%ce%ac%ce%b4%ce%bf%ce%be%ce%b5%ce%bd-%ce%bc%ce%bf%cf%85/",
+            "http://acerasanthropophorum.blogspot.com/2007/01/blog-post.html",
             str(output_path),
         ],
     )

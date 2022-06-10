@@ -18,8 +18,7 @@ def url_extract(url, output_path):
     
     soup = BeautifulSoup(html, "lxml")
 
-
-    content = soup.find("div", attrs={"class": ["postentry"]})
+    content = soup.find("div", attrs={"class": ["entry-content"]})
 
 
     unwanted = content.find("div", attrs={"class": ["sharedaddy"]})

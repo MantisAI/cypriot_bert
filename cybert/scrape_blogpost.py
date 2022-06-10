@@ -19,18 +19,9 @@ def url_extract(url, output_path):
     soup = BeautifulSoup(html, "lxml")
 
 
-    text = " ".join(
-    list(
-        set(
-            [
-                div.text
-                for div in soup.find_all(
-                    "div", attrs={"class": ["post-body"]}
-                )
-            ]
-        )
-    )
-    )
+    text = ""
+    for div in soup.find("div", attrs={"class": ["post-body"]}):
+        text += div.text
 
 
     try:
