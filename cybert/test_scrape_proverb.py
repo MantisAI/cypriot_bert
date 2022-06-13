@@ -1,7 +1,7 @@
 from typer.testing import CliRunner
 import pytest
 
-from scrape_proverbs import app
+from scrape_proverb import app
 
 runner = CliRunner()
 
