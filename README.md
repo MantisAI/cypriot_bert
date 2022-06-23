@@ -37,21 +37,21 @@ sbatch job.sub
 ```
 you can see the output of the logs in `train.log`
 
-The super has two modes for running jobs
+The super computer has two modes for running jobs
 
 - interactive
 - batch
 
 ## Interactive
 
-In the interactive model, you connect to a node and run a job by invoking a script as you would normally do. You can connect
+In the interactive mode, you connect to a node and run a job by invoking a script as you would normally do. You can connect
 to a node using `salloc`, for example
 ```
 salloc --nodes=1 --ntasks-per-node=8 --mem=8000
 ```
 this command connects you to 1 node with 8 cpu codes and 8GB of memory.
 
-Then you can a python script for example,
+Then you can run a python script for example,
 ```
 source .env/bin/activate
 python cybert/train.py imdb models/ distilbert-base-uncased --max-steps 12
