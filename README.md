@@ -21,20 +21,65 @@ Cyclone is the name of the super computer at the Cyprus Institute. In order to r
 this [link](https://hpcfsupport.atlassian.net/servicedesk/customer/portal/3/create/29). Through the process of getting access,
 you need to pass over your public key so that you can ssh into the super computer.
 
-Each user is being given a separate user directory. In the home directory there is a project folder with the name `data_PROJECTID`
-which only you have access and has generous quota for saving data and models Your work should be placed there. Thus clone this
-repo inside the project folder and create the virtualenv by running
+Each user is being given a separate user directory. In the home directory there is a project folder with the name `data_p105`, p105
+is the project id. This folder is shared among all members of the project. The project folder also has generous quota for saving data
+and models so all our work should go there.
+
+If the github repo is not there already, clone and create a virtualenv by running
 ```
 module load Python/3.8.6-GCCcore-10.2.0
 make virtualenv
 ```
 
-To queue a job for training run
+You can run your first batch job by running
 ```
 sbatch job.sub
 ```
+you can see the output of the logs in `train.log`
 
-You can see the output of the logs in `train.log`
+The super computer has two modes for running jobs
+
+- interactive
+- batch
+
+## Interactive
+
+In the interactive mode, you connect to a node and run a job by invoking a script as you would normally do. You can connect
+to a node using `salloc`, for example
+```
+salloc --nodes=1 --ntasks-per-node=8 --mem=8000
+```
+this command connects you to 1 node with 8 cpu codes and 8GB of memory.
+
+Then you can run a python script for example,
+```
+source .env/bin/activate
+python cybert/train.py imdb models/ distilbert-base-uncased --max-steps 12
+```
+
+You can leave this job running using tmux but this is not recommended for long running jobs. Instead,
+it is advised to use a batch job in those cases
+
+## Batch
+
+In batch mode, you need to write a job script that specifies the parameters we passed to `salloc` before
+invoking a script. Our `job.sub` script for example is
+```
+#!/bin/bash
+
+#SBATCH --job-name=test-train
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
+#SBATCH --account=p105
+#SBATCH --output=train.log
+
+module load Python/3.8.6-GCCcore-10.2.0
+source .env/bin/activate
+python cybert/train.py imdb models/ distilbert-base-uncased --max-steps 12
+```
+
+Since when running batch jobs we lose access to stdout to monitor, we can pass an argument with a filepath
+to redirect the output, in this case `train.log`. This script also uses 1 GPU instead of multiple cpus.
 
 More information on how to run jobs here https://hpcf.cyi.ac.cy/documentation/running_jobs.html
 
