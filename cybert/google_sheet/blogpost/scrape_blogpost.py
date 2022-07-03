@@ -23,9 +23,8 @@ def url_extract(url, output_path, append_to_file=False):
 
     soup = BeautifulSoup(html, "lxml")
 
-    text = ""
-    for div in soup.find("div", attrs={"class": ["post-body"]}):
-        text += div.text
+    div = soup.find("div", attrs={"class": ["post-body"]})
+    text = div.text
 
     if append_to_file == "False":
         try:
@@ -38,7 +37,7 @@ def url_extract(url, output_path, append_to_file=False):
         except OSError:
             # create parent dir
             os.makedirs(os.path.abspath(os.path.join(output_path, os.pardir)))
-            write_to_file(text, output_path, "a")
+            write_to_file(text, output_path, "w")
 
 
 if __name__ == "__main__":

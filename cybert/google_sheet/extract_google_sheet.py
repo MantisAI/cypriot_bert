@@ -2,6 +2,7 @@ import blogpost.scrape_blogpost as scrape_blogpost
 import wordpress.scrape_wordpress as scrape_wordpress
 import couplet.scrape_couplet as scrape_couplet
 import proverb.scrape_proverb as scrape_proverb
+import default_feed.scrape_default_feed as default_feed
 
 import os
 import pandas as pd
@@ -40,6 +41,8 @@ def extract_google_sheet():
 
             elif check_script_column == "scrape_proverb":
                 scrape_proverb.url_extract(url, output_dir_path + "proverb.txt", True)
+
+    default_feed.url_extract(output_dir_path + "default_feed.txt")
 
 
 if __name__ == "__main__":
