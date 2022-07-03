@@ -24,9 +24,8 @@ def url_extract(url, output_path, append_to_file=False):
 
     soup = BeautifulSoup(html, "lxml")
 
-    content = ""
-    for td in soup.find("td", attrs={"class": ["paroimia"]}):
-        content += td.text + "\n"
+    td = soup.find("td", attrs={"class": ["paroimia"]})
+    content = td.text + "\n"
 
     if append_to_file == "False":
         try:
